@@ -1,0 +1,119 @@
+-- ===== Keys / Visual Multi =====
+vim.g.mapleader = " "
+vim.g.VM_default_mappings = true
+vim.g.VM_leader = "\\"
+vim.g.VM_maps = {
+  ["Find Under"]         = "<C-n>",
+  ["Find Subword Under"] = "<C-n>",
+  ["Select All"]         = "g<C-n>",
+  ["Add Cursor Down"]    = "<C-Down>",
+  ["Add Cursor Up"]      = "<C-Up>",
+  ["Insert Numbers"]     = "g\\i",
+}
+
+-- ===== Safer defaults (黒塗り対策) =====
+vim.opt.termguicolors  = false
+vim.opt.cursorline     = false
+vim.opt.hlsearch       = false
+vim.opt.colorcolumn    = ""
+vim.opt.conceallevel   = 0
+
+vim.opt.clipboard = "unnamedplus"
+vim.g.clipboard = {
+  name = "win32yank-wsl",
+  copy = { ["+"] = "win32yank.exe -i --crlf", ["*"] = "win32yank.exe -i --crlf" },
+  paste = { ["+"] = "win32yank.exe -o --lf",  ["*"] = "win32yank.exe -o --lf"  },
+  cache_enabled = 0,
+}
+
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><cmd>match none<CR>', { silent = true })
+
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+  callback = function()
+    vim.cmd("nohlsearch")
+    vim.cmd("match none")
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "html", "htmldjango", "eruby" },
+  callback = function()
+    vim.opt_local.list = false
+    vim.opt_local.conceallevel = 0
+    vim.opt_local.colorcolumn = ""
+    pcall(vim.cmd, "IBLDisable")
+  end,
+})
+
+vim.cmd([[hi! Search ctermbg=NONE guibg=NONE cterm=underline gui=underline]])
+
+-- ===== Basics =====
+vim.opt.signcolumn     = "yes"
+vim.opt.sidescrolloff  = 8
+vim.opt.number         = true
+vim.opt.tabstop        = 2
+vim.opt.shiftwidth     = 2
+vim.opt.expandtab      = true
+vim.opt.encoding       = "utf-8"
+vim.opt.ambiwidth      = "single"
+vim.opt.fillchars      = {}
+
+vim.cmd("set background=dark")
+vim.cmd("colorscheme desert")
+
+-- ===== Diagnostic signs (ASCIIで安全) =====
+vim.fn.sign_define('DiagnosticSignError', {text='E', texthl='DiagnosticError'})
+vim.fn.sign_define('DiagnosticSignWarn',  {text='W', texthl='DiagnosticWarn'})
+vim.fn.sign_define('DiagnosticSignInfo',  {text='I', texthl='DiagnosticInfo'})
+vim.fn.sign_define('DiagnosticSignHint',  {text='H', texthl='DiagnosticHint'})
+
+vim.cmd([[
+  sign define CocErrorSign   text=E texthl=CocErrorSign
+  sign define CocWarningSign text=W texthl=CocWarningSign
+  sign define CocInfoSign    text=I texthl=CocInfoSign
+  sign define CocHintSign    text=H texthl=CocHintSign
+]])
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "CocNvimInit",
+  callback = function()
+    vim.cmd([[
+      sign define CocErrorSign   text=E texthl=CocErrorSign
+      sign define CocWarningSign text=W texthl=CocWarningSign
+      sign define CocInfoSign    text=I texthl=CocInfoSign
+      sign define CocHintSign    text=H texthl=CocHintSign
+    ]])
+  end,
+})
+
+-- ===== lazy.nvim bootstrap =====
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- ===== Plugins =====
+require("plugins")
+
+-- indent-blankline (ibl) は存在する時だけ設定
+local ok_ibl, ibl = pcall(require, "ibl")
+if ok_ibl then
+  ibl.setup({
+    indent = { char = "|" },
+    scope  = { enabled = false },
+  })
+end
+
+-- ===== Insert mappings (emmet 非対応時も安全) =====
+vim.cmd([[
+  inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+  inoremap <silent><expr> <Tab> pumvisible()
+        \ ? "\<C-n>"
+        \ : (exists('*emmet#expandAbbr') && emmet#expandAbbr()) ? "\<C-y>," : "\<Tab>"
+]])
+

@@ -1,0 +1,12 @@
+{
+  "suggest.enablePreselect": true,
+  "suggest.noselect": false,
+  "emmet.includeLanguages": {
+    "html": "html",
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact",
+    "css": "css",
+    "scss": "scss"
+  }
+}
+
