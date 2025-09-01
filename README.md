@@ -2,6 +2,7 @@
 
 ## ディレクトリ構成
 
+```text
 ~/.config/nvim/
 ├── init.lua # エントリーポイント
 ├── lua/
@@ -22,6 +23,7 @@
 │ │ ├── conform.lua # フォーマッタ (Prettier, Stylua, etc.)
 │ │ └── ufo.lua # 折りたたみ (VSCodeライク)
 │ └── plugins.lua # lazy.nvim によるプラグイン登録
+```
 
 
 ## 使用プラグイン一覧と役割
