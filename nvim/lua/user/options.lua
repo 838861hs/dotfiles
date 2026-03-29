@@ -8,6 +8,10 @@ vim.opt.cursorline = true -- 現在行をハイライト
 vim.opt.termguicolors = true -- 24bitカラーサポート
 vim.opt.confirm = true
 
+-- 自動インデント関連
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+
 -- clipboardにyankを入れる
 if vim.fn.has("wsl") == 1 then
 	vim.g.clipboard = {

@@ -1,0 +1,21 @@
+{
+  "suggest.enablePreselect": true,
+  "suggest.noselect": false,
+  "emmet.includeLanguages": {
+    "html": "html",
+    "javascriptreact": "html",
+    "typescriptreact": "html",
+    "css": "css",
+    "scss": "scss"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "scss",
+    "html",
+    "javascript",
+    "typescript",
+    "json"
+  ],
+  "prettier.requireConfig": true
+}
