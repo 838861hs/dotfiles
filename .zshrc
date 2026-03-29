@@ -47,7 +47,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -86,6 +86,9 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+#文字色変更
+eval "$(dircolors ~/.dircolors)"
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -121,5 +124,6 @@ source $ZSH/oh-my-zsh.sh
 alias cl='clear' 
 alias fix='reset'
 alias z='zellij'
+alias treecopy='tree -L 3 --charset=ascii src | clip.exe'
 export PATH="$HOME/bin:$PATH"
-
+eval "$(zoxide init zsh)"
