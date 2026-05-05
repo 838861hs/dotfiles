@@ -1,8 +1,12 @@
 -- =======================
 -- yankをシステムクリップボードにする
 -- =======================
-
 vim.opt.clipboard = "unnamedplus"
+
+-- =======================
+-- insert → normalに切り替え設定
+-- =======================
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 
 -- ======================
 -- 行の移動 (vim-move)
@@ -12,6 +16,12 @@ vim.g.move_map_keys = 0 -- デフォルトのキー割り当てを無効化
 -- Ctrl+Alt+↓ / ↑ で行を上下に移動
 vim.keymap.set("n", "<C-A-Down>", "<Plug>MoveLineDown", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-A-Up>", "<Plug>MoveLineUp", { noremap = true, silent = true })
+
+-- ======================
+-- 行番号の設定
+-- ======================
+vim.opt.relativenumber = true
+vim.opt.number = true
 
 -- ======================
 -- メイン設定のロード

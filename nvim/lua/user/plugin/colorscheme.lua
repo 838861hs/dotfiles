@@ -1,11 +1,21 @@
 -- lua/user/plugin/colorscheme.lua
 
--- Kanagawa テーマを読み込む設定
+-- everforest テーマを読み込む設定
 return {
-	"rebelot/kanagawa.nvim",
-	lazy = false,
-	priority = 1000, -- colorschemeは最優先で読み込む
+  {
+	"sainnhe/everforest",
+  priority = 1000,
 	config = function()
-		vim.cmd("colorscheme kanagawa")
+    vim.g.everforest_backgroud = 'hard',
+    vim.cmd.colorscheme("everforest")
+    vim.api.nvim_set_hl(0,"Visual", {
+      bg = "#5f6d3e",
+      fg = "NONE",
+    })
+
+    vim.api.nvim_set_hl(0,"CursorLine",{
+      bg = "#2f383e",
+    })
 	end,
+  }
 }

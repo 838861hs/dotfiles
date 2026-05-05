@@ -4,14 +4,14 @@ local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  local bg = "#5c6d74"
-  local fg = "#e6e6e6"
+  local bg = "#4f5b58"
+  local fg = "#d3c6aa"
 
   if tab.is_active then
-    bg = "#ae8b2d"
-    fg = "#ffffff"
+    bg = "#a7c080"
+    fg = "#272e33"
   elseif hover then
-    bg = "#7a8a91"
+    bg = "#657070"
     fg = "#ffffff"
   end
 
@@ -33,15 +33,19 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   }
 end)
 
-
 return {
-  default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/home/philoaki", "tmux", "new-session", "-A", "-s", "main" },
+  -- default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/home/philoaki", "tmux", "new-session", "-A", "-s", "main" }, --wsl設定
+  default_prog = { "tmux", "new-session", "-A", "-s", "main" },
+
   font = wezterm.font_with_fallback({
-    "UDEV Gothic 35NF",
-    "Meiryo", -- 日本語フォールバック（お好みで）
+    "Hack Nerd Font",
+    "Noto Sans Mono",
+    "Noto Sans CJK JP",
   }),
-  font_size = 11.0,  -- デフォルトは 12.0 前後
-  
+  font_size = 11.0,
+
+  color_scheme = "Everforest Dark Hard",
+
   -- 背景透過（0.0=透明、1.0=不透明）
   window_background_opacity = 0.8,
 
@@ -53,12 +57,15 @@ return {
   hide_tab_bar_if_only_one_tab = true,
   tab_bar_at_bottom = false,
   window_decorations = "RESIZE",
-  window_frame = { inactive_titlebar_bg="none", active_titlebar_bg="none" },
-  window_background_gradient = { colors = {"#000000"} },
+  window_frame = {
+    inactive_titlebar_bg = "none",
+    active_titlebar_bg = "none",
+  },
+  window_background_gradient = { colors = { "#000000" } },
   show_new_tab_button_in_tab_bar = false,
 
   colors = {
-  tab_bar = {
+    tab_bar = {
       inactive_tab_edge = "none",
     },
   },
@@ -85,20 +92,19 @@ return {
     { key = "6", mods = "CTRL", action = wezterm.action.ActivateTab(5) },
     { key = "7", mods = "CTRL", action = wezterm.action.ActivateTab(6) },
     { key = "8", mods = "CTRL", action = wezterm.action.ActivateTab(7) },
-    { key = "9", mods = "CTRL", action = wezterm.action.ActivateTab(-1) }, 
+    { key = "9", mods = "CTRL", action = wezterm.action.ActivateTab(-1) },
     {
-      key = 'v',
-      mods = 'CTRL',
-      action = wezterm.action.PasteFrom 'Clipboard',
+      key = "v",
+      mods = "CTRL",
+      action = wezterm.action.PasteFrom("Clipboard"),
     },
     {
-      key = 'c',
-      mods = 'CTRL',
-      action = wezterm.action.CopyTo 'Clipboard',
+      key = "m",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.ToggleFullScreen,
     },
-  
   },
-    -- タブやペインを閉じるときの確認ダイアログを無効化
-  window_close_confirmation = "NeverPrompt",
 
+  -- タブやペインを閉じるときの確認ダイアログを無効化
+  window_close_confirmation = "NeverPrompt",
 }
