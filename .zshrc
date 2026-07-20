@@ -1,7 +1,3 @@
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -19,7 +15,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
@@ -47,7 +42,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
-DISABLE_LS_COLORS="true"
+# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -86,9 +81,6 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-#文字色変更
-eval "$(dircolors ~/.dircolors)"
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -120,10 +112,5 @@ eval "$(dircolors ~/.dircolors)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-alias cl='clear' 
-alias fix='reset'
-alias z='zellij'
-alias treecopy='tree -L 3 --charset=ascii src | clip.exe'
-export PATH="$HOME/bin:$PATH"
 eval "$(zoxide init zsh)"
+alias copyq="QT_QPA_PLATFORM=xcb copyq"
