@@ -103,6 +103,11 @@ return {
       mods = "CTRL|SHIFT",
       action = wezterm.action.ToggleFullScreen,
     },
+    {
+      key = "Enter",
+      mods = "SHIFT",
+      action = wezterm.action.SendString("\x1b[13;2u"),
+    }, 
   },
 
   -- タブやペインを閉じるときの確認ダイアログを無効化
