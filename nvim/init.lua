@@ -34,13 +34,31 @@ require("user.keymaps") -- キーマップ設定（分割、Git、Telescopeな�
 -- coc言語設定
 -- ======================
 vim.g.coc_global_extensions = {
-	"coc-tsserver",
-	"coc-html",
-	"coc-css",
-	"coc-emmet",
-	"coc-json",
-	"coc-prettier",
+  "coc-tsserver",
+  "coc-html",
+  "coc-css",
+  "coc-emmet",
+  "coc-json",
+  "coc-prettier",
 }
+
+-- ======================
+-- TypeScript 型情報の自動表示（coc.nvim）
+-- ======================
+
+-- カーソル停止から1秒後に実行
+vim.opt.updatetime = 1000
+
+-- TypeScriptファイルだけで型情報を表示
+vim.api.nvim_create_autocmd("CursorHold", {
+  pattern = { "*.ts", "*.tsx" },
+  callback = function()
+    -- coc.nvimの準備ができている場合のみ実行
+    if vim.fn["coc#rpc#ready"]() == 1 then
+      vim.fn.CocActionAsync("doHover")
+    end
+  end,
+})
 
 -- ======================
 -- インデント設定（2スペース）
@@ -50,65 +68,67 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.smartindent = true
+
 -- ======================
 -- 補完 (coc.nvim + emmet)
 -- ======================
 local function check_back_space()
-	local col = vim.fn.col(".") - 1
-	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
+  local col = vim.fn.col(".") - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
 
 -- Tab: 補完メニューが出てたら「確定」(=Emmet展開もここで起きる)
 vim.keymap.set("i", "<Tab>", function()
-	if vim.fn["coc#pum#visible"]() == 1 then
-		return vim.fn["coc#pum#confirm"]()
-	end
-	if check_back_space() then
-		return "\t"
-	end
-	-- ここで補完/Emmet候補を出す
-	return vim.fn["coc#refresh"]()
+  if vim.fn["coc#pum#visible"]() == 1 then
+    return vim.fn["coc#pum#confirm"]()
+  end
+  if check_back_space() then
+    return "\t"
+  end
+  -- ここで補完/Emmet候補を出す
+  return vim.fn["coc#refresh"]()
 end, { expr = true, noremap = true, silent = true })
 
 -- ======================
 -- ターミナル操作
 -- ======================
 vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = "term://*",
-	callback = function()
-		vim.keymap.set("t", "<Esc>", [[<C-\><C-n><C-w>k]], { buffer = true, noremap = true, silent = true })
-	end,
+  pattern = "term://*",
+  callback = function()
+    vim.keymap.set("t", "<Esc>", [[<C-\><C-n><C-w>k]], { buffer = true, noremap = true, silent = true })
+  end,
 })
 
 -- ======================
 -- デバッグ用: 補完メニューが表示されているか確認
 -- ======================
 vim.keymap.set("n", "<leader>pv", function()
-	print(vim.fn["coc#pum#visible"]())
+  print(vim.fn["coc#pum#visible"]())
 end)
+
 -- ======================
---  保存時にカーソル位置を復元する設定
+-- 保存時にカーソル位置を復元する設定
 -- ======================
 vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function()
-		vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0)
-	end,
+  callback = function()
+    vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0)
+  end,
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
-	callback = function()
-		if vim.b.cursor_pos then
-			pcall(vim.api.nvim_win_set_cursor, 0, vim.b.cursor_pos)
-			vim.b.cursor_pos = nil
-		end
-	end,
+  callback = function()
+    if vim.b.cursor_pos then
+      pcall(vim.api.nvim_win_set_cursor, 0, vim.b.cursor_pos)
+      vim.b.cursor_pos = nil
+    end
+  end,
 })
 
 -- ======================
 -- ejsのファイルタイプ設定
 -- ======================
 vim.filetype.add({
-	extension = {
-		ejs = "html",
-	},
+  extension = {
+    ejs = "html",
+  },
 })
